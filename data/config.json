@@ -1,0 +1,45 @@
+{
+  "lan": "EN",
+  "credentialsAp": {
+    "ssid": "Esp32",
+    "password": ""
+  },
+  "credentialsWifi": {
+    "ssid": "LoadingWifi",
+    "password": "AveoRojo123"
+  },
+  "Data": [
+    {
+      "buttom": {
+        "Manual Start Delay": 0,
+        "Manual Work Delay": 0,
+        "Manual End Delay": 0
+      },
+      "timer": []
+    },
+    {
+      "buttom": {
+        "Manual Start Delay": 0,
+        "Manual Work Delay": 0,
+        "Manual End Delay": 0
+      },
+      "timer": []
+    },
+    {
+      "buttom": {
+        "Manual Start Delay": 0,
+        "Manual Work Delay": 0,
+        "Manual End Delay": 0
+      },
+      "timer": []
+    },
+    {
+      "buttom": {
+        "Manual Start Delay": 0,
+        "Manual Work Delay": 0,
+        "Manual End Delay": 0
+      },
+      "timer": []
+    }
+  ]
+}

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Smart Leaf ES</title>
+    <link rel="stylesheet" href="./www/css/style.css" />
+    <link rel="stylesheet" href="./www/css/index.css" />
+  </head>
+  <body>
+    <div id="menuHamburger">
+      <img id="hamburger" src="./www/menu.png" />
+    </div>
+    <div id="menu">
+      <div class="menuItemContainer">
+        <img class="icon" src="./www/homeW.png" />
+        <p class="menuItem" id="homeMenu">HOME</p>
+      </div>
+      <div class="menuItemContainer">
+        <img class="icon" src="./www/reloj.png" />
+        <p class="menuItem" id="relay1Menu">RELAY1</p>
+      </div>
+      <div class="menuItemContainer">
+        <img class="icon" src="./www/reloj.png" />
+        <p class="menuItem" id="relay2Menu">RELAY2</p>
+      </div>
+      <div class="menuItemContainer">
+        <img class="icon" src="./www/reloj.png" />
+        <p class="menuItem" id="relay3Menu">RELAY3</p>
+      </div>
+      <div class="menuItemContainer">
+        <img class="icon" src="./www/reloj.png" />
+        <p class="menuItem" id="relay4Menu">RELAY4</p>
+      </div>
+      <div class="menuItemContainer">
+        <img class="icon" src="./www/wifiRouter.png" />
+        <p class="menuItem" id="accessPointMenu">ACCESS POINT</p>
+      </div>
+      <div class="menuItemContainer">
+        <img class="icon" src="./www/wifi.png" />
+        <p class="menuItem" id="wifiMenu">WIFI</p>
+      </div>
+    </div>
+
+    <div id="box">
+      <div id="home">
+        <div id="lan">
+          <button class="lanButtom" id="lanES">Es</button>
+          <button class="lanButtom" id="lanEN">En</button>
+        </div>
+        <div class="titleWhite">
+          <img class="icon" src="./www/home.png" />
+          <h2 id="home">Home</h2>
+        </div>
+        <div id="currentTimeW">
+          <img class="icon" src="./www/relojW.png" />
+          <p>Current Time:%currentTime%</p>
+        </div>
+        <p id="formatTimeW">(HH:mm:ss DD/MM/YYYY)</p>
+        <button id="syncTime" class="syncW">Sync Time</button>
+        <div class="info infoHome">
+          <div class="buttomRelay">
+            <p class="buttomTitle">Relay1</p>
+            <button class="%state1%" id="buttom1">
+              <img class="iconOnOff" src="./www/onOff.png" />
+            </button>
+          </div>
+          <div class="buttomRelay">
+            <p class="buttomTitle">Relay2</p>
+            <button class="%state2%" id="buttom2">
+              <img class="iconOnOff" src="./www/onOff.png" />
+            </button>
+          </div>
+          <div class="buttomRelay">
+            <p class="buttomTitle">Relay3</p>
+            <button class="%state3%" id="buttom3">
+              <img class="iconOnOff" src="./www/onOff.png" />
+            </button>
+          </div>
+          <div class="buttomRelay">
+            <p class="buttomTitle">Relay4</p>
+            <button class="%state4%" id="buttom4">
+              <img class="iconOnOff" src="./www/onOff.png" />
+            </button>
+          </div>
+        </div>
+        <div class="edit">
+          <div class="titleContainer">
+            <img class="icon" src="./www/home.png" />
+            <h2>Home</h2>
+          </div>
+          <div id="currentTime">
+            <img class="icon" src="./www/relojW.png" />
+            <p>Current Time:%currentTime%</p>
+          </div>
+          <p id="formatTime">(HH:mm:ss DD/MM/YYYY)</p>
+          <button id="syncTimeW" class="sync">Sync Time</button>
+        </div>
+      </div>
+    </div>
+    <script src="./www/js/moment.js"></script>
+    <script src="./www/js/index.js"></script>
+    <script src="./www/js/script.js"></script>
+  </body>
+</html>

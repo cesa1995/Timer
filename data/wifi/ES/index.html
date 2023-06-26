@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Smart Leaf</title>
+    <link rel="stylesheet" href="/www/css/style.css" />
+    <link rel="stylesheet" href="/www/css/forms.css" />
+  </head>
+  <body>
+    <div id="menuHamburger">
+      <img id="hamburger" src="/www/menu.png" />
+    </div>
+    <div id="menu">
+      <div class="menuItemContainer">
+        <img class="icon" src="/www/homeW.png" />
+        <p class="menuItem" id="homeMenu">HOME</p>
+      </div>
+      <div class="menuItemContainer">
+        <img class="icon" src="/www/reloj.png" />
+        <p class="menuItem" id="relay1Menu">RELAY1</p>
+      </div>
+      <div class="menuItemContainer">
+        <img class="icon" src="/www/reloj.png" />
+        <p class="menuItem" id="relay2Menu">RELAY2</p>
+      </div>
+      <div class="menuItemContainer">
+        <img class="icon" src="/www/reloj.png" />
+        <p class="menuItem" id="relay3Menu">RELAY3</p>
+      </div>
+      <div class="menuItemContainer">
+        <img class="icon" src="/www/reloj.png" />
+        <p class="menuItem" id="relay4Menu">RELAY4</p>
+      </div>
+      <div class="menuItemContainer">
+        <img class="icon" src="/www/wifiRouter.png" />
+        <p class="menuItem" id="accessPointMenu">ACCESS POINT</p>
+      </div>
+      <div class="menuItemContainer">
+        <img class="icon" src="/www/wifi.png" />
+        <p class="menuItem" id="wifiMenu">WIFI</p>
+      </div>
+    </div>
+
+    <div id="box">
+      <div id="wifi">
+        <div class="info infoTime">
+          <div class="titleWhite">
+            <img class="icon" src="/www/wifi.png" />
+            <h2>WIFI</h2>
+          </div>
+          <div class="time">
+            <label class="timeTitle">Ssid:</label>
+            <label class="timeText" id="ssid"></label>
+          </div>
+          <div class="time">
+            <label class="timeTitle">Password:</label>
+            <label class="timeText" id="password"></label>
+          </div>
+          <div class="time">
+            <label class="timeTitle">IP:</label>
+            <label class="timeText">%WIFIIP%</label>
+          </div>
+          <div class="time">
+            <label class="note"
+              >NOTE: The device will connect to a wifi network that will assign
+              an ip (example: 192.168.1.100) with which you will be able to see
+              this panel without connecting directly. This can be consulted at
+              the top of this note.</label
+            >
+          </div>
+        </div>
+        <form id="onChangeWifiCredentials" method="post">
+          <div class="titleContainer">
+            <img class="icon" src="/www/wifiW.png" />
+            <h2>WIFI</h2>
+          </div>
+          <label for="ssidWifi">SSID</label>
+          <input id="ssidWifi" name="ssid" value="" />
+          <label for="passwordWifi">Password</label>
+          <input id="passwordWifi" name="password" value="" />
+          <button type="submit">Save</button>
+        </form>
+      </div>
+    </div>
+    <script src="/www/js/wifi.js"></script>
+    <script src="/www/js/script.js"></script>
+  </body>
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Smart Leaf</title>
+    <link rel="stylesheet" href="/www/css/style.css" />
+    <link rel="stylesheet" href="/www/css/forms.css" />
+  </head>
+  <body>
+    <div id="menuHamburger">
+      <img id="hamburger" src="/www/menu.png" />
+    </div>
+    <div id="menu">
+      <div class="menuItemContainer">
+        <img class="icon" src="/www/homeW.png" />
+        <p class="menuItem" id="homeMenu">HOME</p>
+      </div>
+      <div class="menuItemContainer">
+        <img class="icon" src="/www/reloj.png" />
+        <p class="menuItem" id="relay1Menu">RELAY1</p>
+      </div>
+      <div class="menuItemContainer">
+        <img class="icon" src="/www/reloj.png" />
+        <p class="menuItem" id="relay2Menu">RELAY2</p>
+      </div>
+      <div class="menuItemContainer">
+        <img class="icon" src="/www/reloj.png" />
+        <p class="menuItem" id="relay3Menu">RELAY3</p>
+      </div>
+      <div class="menuItemContainer">
+        <img class="icon" src="/www/reloj.png" />
+        <p class="menuItem" id="relay4Menu">RELAY4</p>
+      </div>
+      <div class="menuItemContainer">
+        <img class="icon" src="/www/wifiRouter.png" />
+        <p class="menuItem" id="accessPointMenu">ACCESS POINT</p>
+      </div>
+      <div class="menuItemContainer">
+        <img class="icon" src="/www/wifi.png" />
+        <p class="menuItem" id="wifiMenu">WIFI</p>
+      </div>
+    </div>
+
+    <div id="box">
+      <div id="relay">
+        <div class="info infoTime" id="infoContainer">
+          <div class="titleWhite">
+            <img class="icon" src="/www/reloj.png" />
+            <h2 id="relayTitleWhite">Relay</h2>
+          </div>
+          <h5>Temporizador</h5>
+          <h5>Buttom</h5>
+          <div class="time">
+            <label class="timeTitle">Manual Start Delay:</label>
+            <label class="timeText" id="delayStart"></label>
+          </div>
+          <div class="time">
+            <label class="timeTitle">Manual Work:</label>
+            <label class="timeText" id="delayWork"></label>
+          </div>
+          <div class="time">
+            <label class="timeTitle">Manual End Delay:</label>
+            <label class="timeText" id="delayEnd"></label>
+          </div>
+          <div class="time">
+            <label class="note"
+              >NOTE: The device will be on, between the start time and the end
+              time, defined as the working time. The interval is a time in
+              seconds, that will turn the device off and on during the working
+              time. note that if you press the physical button the timer will
+              stop.</label
+            >
+          </div>
+        </div>
+        <div class="edit">
+          <div class="titleContainer">
+            <img class="icon" src="/www/relojW.png" />
+            <h2 id="relayTitle">Relay</h2>
+          </div>
+          <h3 class="configTitle" id="tempConfig">
+            Temporizador <span>></span>
+          </h3>
+          <form class="editTimer" id="onAddTimer" method="post">
+            <label for="onName">Name</label>
+            <input id="onName" type="text" name="name" value="" />
+            <label for="onStart">Start Time</label>
+            <input id="onStart" type="time" name="start" value="00:00" />
+            <label for="onEnd">End Time</label>
+            <input id="onEnd" type="time" name="end" value="00:00" />
+            <label for="onIntervalStart">Interval Start (seconds)</label>
+            <input
+              id="onIntervalStart"
+              type="number"
+              name="intervalStart"
+              value="0"
+            />
+            <label for="onIntervalEnd">Interval End (seconds)</label>
+            <input
+              id="onIntervalEnd"
+              type="number"
+              name="intervalEnd"
+              value="0"
+            />
+            <input id="relayNumber" type="hidden" name="relay" value="Relay1" />
+            <button type="submit">Save</button>
+          </form>
+          <h3 class="configTitle" id="buttomConfig">
+            Buttom (seconds)<span>></span>
+          </h3>
+          <form id="onButtomConfig" class="editTimer" method="post">
+            <label for="onStart">Manual Start Delay (seconds)</label>
+            <input id="onStart" type="number" name="delayStart" value="0" />
+            <label for="onWork">Manual Work Delay (seconds)</label>
+            <input id="onWork" type="number" name="delayWork" value="0" />
+            <label for="onEnd">Manual End Delay (seconds)</label>
+            <input id="onEnd" type="number" name="delayEnd" value="0" />
+            <input
+              id="relayNumberButtom"
+              type="hidden"
+              name="relay"
+              value="Relay1"
+            />
+            <button type="submit">Save</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <script src="/www/js/moment.js"></script>
+    <script src="/www/js/relay.js"></script>
+    <script src="/www/js/script.js"></script>
+  </body>
+</html>
