@@ -111,6 +111,12 @@ void serverHandle::loop()
 
 void serverHandle::handleDataRequest(JsonObject body)
 {
+    if (body.containsKey("deviceName"))
+    {
+        WifiHandle->setName(body["deviceName"]);
+        Memory->writeDataJson();
+        return;
+    }
     if (body.containsKey("lan"))
     {
         Memory->setLan(body["lan"]);

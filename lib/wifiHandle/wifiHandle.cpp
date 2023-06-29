@@ -15,6 +15,7 @@ void wifiHandle::init()
         Serial.print("Wifi was connected to: ");
         Serial.println(ssid);
     }
+    _TcpIpServer->begin();
 }
 
 bool wifiHandle::connectAp(WiFiClass *wifi)

@@ -62,6 +62,7 @@ void memory::writeDataJson()
     doc = new DynamicJsonDocument(ESP.getMaxAllocHeap());
     JsonObject root = doc->to<JsonObject>();
     root["lan"] = config.lan;
+    root["deviceName"] = _wifiHandle->getName();
 
     JsonObject credentialAp = root.createNestedObject("credentialsAp");
     credentialAp["ssid"] = _wifiHandle->getSsidAp();
@@ -119,6 +120,7 @@ void memory::readDataConfig()
         configFile.close();
         writeDataJson();
     }
+    _wifiHandle->setName(root["deviceName"] | "");
     _wifiHandle->setWifiCrentials(root["credentialsWifi"]["ssid"] | "", root["credentialsWifi"]["password"] | "");
     _wifiHandle->setApCrentials(root["credentialsAp"]["ssid"] | "Esp32", root["credentialsAp"]["password"] | "");
     config.lan = root["lan"] | "";

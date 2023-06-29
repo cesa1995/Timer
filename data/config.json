@@ -1,4 +1,5 @@
 {
+  "deviceName": "Smart Leaf Timer",
   "lan": "EN",
   "credentialsAp": {
     "ssid": "Esp32",
