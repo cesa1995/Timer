@@ -31,7 +31,7 @@ then
     cd ./temp/
     
     tar -czf ../update_$VERSION.tgz * 
-    #rm -r ../temp/
+    rm -r ../temp/
 else
     echo "Commit already versionade"
 fi
