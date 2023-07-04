@@ -2,3 +2,5 @@ commit=feat: OTA Feature:
 version=1
 commit=testing ota version 2:
 version=2
+commit=testing ota version 3:
+version=3

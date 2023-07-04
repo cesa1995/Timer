@@ -106,6 +106,7 @@ public:
             vTaskDelay(100 / portTICK_PERIOD_MS);
             vTaskDelete(NULL);
         }
+        tarGzFS.format();
 
         Stream *streamptr = &file;
 
@@ -152,6 +153,7 @@ public:
                 if (Update.isFinished())
                 {
                     Serial.println("Update successfully completed. Rebooting.");
+                    Serial.printf("Free space: %10u\n", FFat.freeBytes());
                     *shouldReboot = true;
                 }
                 else
