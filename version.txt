@@ -1,2 +1,2 @@
-commit=add the device name feature and the ping registration:
+commit=feat: OTA Feature:
 version=1

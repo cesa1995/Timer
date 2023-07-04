@@ -13,10 +13,11 @@ LASTCOMMIT=${LASTCOMMIT%%:*}
 
 if [[ $LASTCOMMIT != $COMMIT ]] || [[ $LASTCOMMIT == "" ]] 
 then
-    mkdir ./temp
+    mkdir ./temp/
     LASTVERSION=${tag##*=}
     VERSION="$((LASTVERSION + 1))"
     LASTFILE="./update_$LASTVERSION.tgz"
+
     if [ -e $LASTFILE  ]
     then
         rm $LASTFILE
@@ -24,12 +25,13 @@ then
 
     echo "commit=$COMMIT:" >> version.txt
     echo "version=$VERSION" >> version.txt
+
     cp -r ./data/* ./temp/
-    cp ./.pio/build/esp32dev/firmware.bin ./tem/
+    cp ./.pio/build/esp32dev/firmware.bin ./temp/
     cd ./temp/
     
     tar -czf ../update_$VERSION.tgz * 
-    rm -r ../temp/
+    #rm -r ../temp/
 else
     echo "Commit already versionade"
 fi

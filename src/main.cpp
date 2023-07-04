@@ -66,6 +66,8 @@ void setup()
   ServerHandle.init();
   Buttoms.init();
 
+  Serial.println("Testing OTA version!");
+
   xTaskCreatePinnedToCore(
       HandleNowTask,   /* Task function. */
       "HandleNowTask", /* name of task. */

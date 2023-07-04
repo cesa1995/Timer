@@ -127,13 +127,13 @@ public:
         Serial.printf("Free space: %10u\n", FFat.freeBytes());
         file.close();
 
-        ServerHandle->updateFromFS(FFat, ServerHandle->firmwareFile);
+        ServerHandle->updateFromFS(FFat, ServerHandle->firmwareFile, &ServerHandle->shouldReboot);
 
         vTaskDelay(100 / portTICK_PERIOD_MS);
         vTaskDelete(NULL);
     }
 
-    static void performUpdate(Stream &updateSource, size_t updateSize)
+    static void performUpdate(Stream &updateSource, size_t updateSize, bool *shouldReboot)
     {
         if (Update.begin(updateSize))
         {
@@ -152,6 +152,7 @@ public:
                 if (Update.isFinished())
                 {
                     Serial.println("Update successfully completed. Rebooting.");
+                    *shouldReboot = true;
                 }
                 else
                 {
@@ -170,7 +171,7 @@ public:
     }
 
     // check given FS for valid update.bin and perform update if available
-    static void updateFromFS(fs::FS &fs, const char *firmwareFile)
+    static void updateFromFS(fs::FS &fs, const char *firmwareFile, bool *shouldReboot)
     {
         File updateBin = fs.open(firmwareFile);
         if (updateBin)
@@ -187,7 +188,7 @@ public:
             if (updateSize > 0)
             {
                 Serial.println("Try to start update");
-                performUpdate(updateBin, updateSize);
+                performUpdate(updateBin, updateSize, shouldReboot);
             }
             else
             {
