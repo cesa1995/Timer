@@ -4,3 +4,5 @@ commit=testing ota version 2:
 version=2
 commit=testing ota version 3:
 version=3
+commit=testing ota version 4:
+version=4

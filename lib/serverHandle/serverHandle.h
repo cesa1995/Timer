@@ -106,7 +106,7 @@ public:
             vTaskDelay(100 / portTICK_PERIOD_MS);
             vTaskDelete(NULL);
         }
-        tarGzFS.format();
+        tarGzFS.format(true);
 
         Stream *streamptr = &file;
 
