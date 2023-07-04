@@ -2,12 +2,12 @@
   "deviceName": "Smart Leaf Timer",
   "lan": "EN",
   "credentialsAp": {
-    "ssid": "Esp32",
+    "ssid": "SmartLeafTimer",
     "password": ""
   },
   "credentialsWifi": {
-    "ssid": "LoadingWifi",
-    "password": "AveoRojo123"
+    "ssid": "",
+    "password": ""
   },
   "Data": [
     {

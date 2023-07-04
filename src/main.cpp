@@ -98,5 +98,4 @@ void setup()
 void loop()
 {
   ServerHandle.loop();
-  WifiHandle.CheckTcpConnections();
 }

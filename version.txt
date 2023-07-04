@@ -1,0 +1,2 @@
+commit=add the device name feature and the ping registration:
+version=1

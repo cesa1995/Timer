@@ -1,7 +1,6 @@
 #ifndef _WIFI_HANDLE_H
 #define _WIFI_HANDLE_H
 #include <WiFi.h>
-
 class wifiHandle
 {
 private:
@@ -14,8 +13,6 @@ private:
     bool _isApConnect;
     bool connectAp(WiFiClass *wifi);
     bool connectWifi(WiFiClass *wifi);
-    WiFiServer *_TcpIpServer = new WiFiServer(23);
-    WiFiClient RemoteClient;
 
 public:
     void init();
@@ -23,6 +20,16 @@ public:
     void onApConnect();
     void setWifiCrentials(String _ssid, String _password);
     void setApCrentials(String _ssid, String _password);
+
+    IPAddress getWifiIp()
+    {
+        return WiFi.localIP();
+    }
+
+    IPAddress getApIp()
+    {
+        return WiFi.softAPIP();
+    }
 
     String getSsidAp()
     {
@@ -51,7 +58,7 @@ public:
 
     bool isWifiConnect()
     {
-        return _isWifiConnect;
+        return WiFi.isConnected();
     }
 
     void setName(String _deviceName)
@@ -64,30 +71,14 @@ public:
         return deviceName;
     }
 
-    void CheckTcpConnections()
+    static void HandleWifiConnect(void *pvParameters)
     {
-        if (_TcpIpServer->hasClient())
-        {
-            if (RemoteClient.connected())
-            {
-                Serial.println("Connection rejected");
-                _TcpIpServer->available().stop();
-            }
-            else
-            {
-                Serial.println("Connection accepted");
-                RemoteClient = _TcpIpServer->available();
-            }
-            SendDeviceId();
-        }
-    }
-
-    void SendDeviceId()
-    {
-        if (RemoteClient.connected())
-        {
-            RemoteClient.println(deviceName);
-        }
+        wifiHandle *WifiHandle = (wifiHandle *)pvParameters;
+        vTaskDelay(5000 / portTICK_PERIOD_MS);
+        WifiHandle->onApConnect();
+        WifiHandle->onWifiConnect();
+        vTaskDelay(100 / portTICK_PERIOD_MS);
+        vTaskDelete(NULL);
     }
 };
 #endif

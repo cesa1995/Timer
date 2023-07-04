@@ -61,7 +61,11 @@ void serverHandle::init()
     _ws->onEvent([this](AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType type, void *arg, uint8_t *data, size_t len)
                  { this->onEvent(server, client, type, arg, data, len, this->getWSocket()); });
 
+    AsyncCallbackJsonWebHandler *handler = new AsyncCallbackJsonWebHandler(writeConfig, [this](AsyncWebServerRequest *request, JsonVariant &json)
+                                                                           { this->handleJsonRequest(request, json); });
     _server->addHandler(_ws);
+
+    _server->addHandler(handler);
 
     _server->on("/", [this](AsyncWebServerRequest *request)
                 { this->reponse(request, index); });
@@ -72,15 +76,84 @@ void serverHandle::init()
     _server->on(wifi, [this](AsyncWebServerRequest *request)
                 { this->reponse(request, wifi); });
 
-    AsyncCallbackJsonWebHandler *handler = new AsyncCallbackJsonWebHandler(writeConfig, [this](AsyncWebServerRequest *request, JsonVariant &json)
-                                                                           { this->handleJsonRequest(request, json); });
-    _server->addHandler(handler);
+    _server->on(getData, HTTP_GET, [this](AsyncWebServerRequest *request)
+                { this->handleJsonGetData(request); });
 
     _server->on(config, HTTP_GET, [this](AsyncWebServerRequest *request)
                 { request->send(FFat, config, String(), false); });
 
     _server->serveStatic(publicFiles, FFat, publicFiles);
+
+    // Simple Firmware Update Form
+    _server->on("/update", HTTP_GET, [](AsyncWebServerRequest *request)
+                { request->send(200, "text/html", "<form method='POST' action='/update' enctype='multipart/form-data'><input type='file' name='update'><input type='submit' value='Update'></form>"); });
+
+    _server->on(
+        "/update", HTTP_POST, [this](AsyncWebServerRequest *request)
+        {
+    AsyncJsonResponse *response = new AsyncJsonResponse();
+    response->addHeader("Server", "Smart Leaf Async Web Server");
+    response->addHeader("Connection", "close");
+    JsonObject root = response->getRoot();
+    root["update"]=shouldReboot;
+    response->setLength();
+    request->send(response); },
+        [this](AsyncWebServerRequest *request, String filename, size_t index, uint8_t *data, size_t len, bool final)
+        {
+            if (!index)
+            {
+                Serial.println("Upload Start: " + String(filename));
+                request->_tempFile = FFat.open("/" + filename, FILE_WRITE);
+            }
+
+            if (len)
+            {
+                request->_tempFile.write(data, len);
+            }
+
+            if (final)
+            {
+                // close the file handle as the upload is now done
+                request->_tempFile.close();
+                this->setFileName("/" + filename);
+                Serial.println("Upload Complete: " + String(filename) + ", size: " + String(index + len));
+                xTaskCreatePinnedToCore(
+                    this->HandleUpdateTimer, /* Task function. */
+                    "HandleUpdateTimer",     /* name of task. */
+                    10000,                   /* Stack size of task */
+                    this,                    /* parameter of the task */
+                    20,                      /* priority of the task */
+                    this->UpdateTask,        /* Task handle to keep track of created task */
+                    1);
+            }
+        });
+
     _server->begin();
+}
+
+void serverHandle::handleJsonGetData(AsyncWebServerRequest *request)
+{
+    AsyncJsonResponse *response = new AsyncJsonResponse();
+    response->addHeader("Server", "Smart Leaf Async Web Server");
+    JsonObject root = response->getRoot();
+    if (!request->hasParam("config"))
+    {
+        root["error"] = "config key is needed";
+        response->setLength();
+        request->send(response);
+        return;
+    }
+    if (request->getParam("config")->value() == "wifi")
+    {
+        root["isConnected"] = WifiHandle->isWifiConnect();
+        root["ip"] = IpAddressToString(WifiHandle->getWifiIp());
+    }
+    if (request->getParam("config")->value() == "deviceName")
+    {
+        root["name"] = WifiHandle->getName();
+    }
+    response->setLength();
+    request->send(response);
 }
 
 void serverHandle::handleJsonRequest(AsyncWebServerRequest *request, JsonVariant &json)
@@ -88,7 +161,7 @@ void serverHandle::handleJsonRequest(AsyncWebServerRequest *request, JsonVariant
     JsonObject jsonObj = json.as<JsonObject>();
     handleDataRequest(jsonObj);
     AsyncJsonResponse *response = new AsyncJsonResponse();
-    response->addHeader("Server", "ESP Async Web Server");
+    response->addHeader("Server", "Smart Leaf Async Web Server");
     JsonObject root = response->getRoot();
     root["data"] = jsonObj;
     root["url"] = "http://timer.local";
@@ -105,6 +178,12 @@ void serverHandle::reponse(AsyncWebServerRequest *request, const char *file)
 
 void serverHandle::loop()
 {
+    if (shouldReboot)
+    {
+        Serial.println("Rebooting...");
+        delay(100);
+        ESP.restart();
+    }
     _ws->cleanupClients();
     dnsServer.processNextRequest();
 }
@@ -175,7 +254,14 @@ void serverHandle::handleDataRequest(JsonObject body)
         String password = body["passwordAp"] | "";
         WifiHandle->setApCrentials(ssid, password);
         Memory->writeDataJson();
-        WifiHandle->onApConnect();
+        xTaskCreatePinnedToCore(
+            WifiHandle->HandleWifiConnect, /* Task function. */
+            "HandleWifiReconnect",         /* name of task. */
+            10000,                         /* Stack size of task */
+            this->WifiHandle,              /* parameter of the task */
+            20,                            /* priority of the task */
+            WifiTask,                      /* Task handle to keep track of created task */
+            0);
         return;
     }
     if (body.containsKey("ssid"))
@@ -184,7 +270,14 @@ void serverHandle::handleDataRequest(JsonObject body)
         String password = body["password"] | "";
         WifiHandle->setWifiCrentials(ssid, password);
         Memory->writeDataJson();
-        WifiHandle->onWifiConnect();
+        xTaskCreatePinnedToCore(
+            WifiHandle->HandleWifiConnect, /* Task function. */
+            "HandleWifiReconnect",         /* name of task. */
+            10000,                         /* Stack size of task */
+            this->WifiHandle,              /* parameter of the task */
+            20,                            /* priority of the task */
+            WifiTask,                      /* Task handle to keep track of created task */
+            0);
         return;
     }
     if (body.containsKey("now"))
