@@ -48,7 +48,7 @@ private:
     TaskHandle_t *WifiTask;
     TaskHandle_t *UpdateTask;
 
-    String filename;
+    String filename = "/Update.tgz";
 
     void reponse(AsyncWebServerRequest *request, const char *file);
     void onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType type, void *arg, uint8_t *data, size_t len, AsyncWebSocket *_ws);
@@ -106,7 +106,6 @@ public:
             vTaskDelay(100 / portTICK_PERIOD_MS);
             vTaskDelete(NULL);
         }
-        tarGzFS.format(true);
 
         Stream *streamptr = &file;
 

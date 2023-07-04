@@ -13,6 +13,7 @@ LASTCOMMIT=${LASTCOMMIT%%:*}
 
 if [[ $LASTCOMMIT != $COMMIT ]] || [[ $LASTCOMMIT == "" ]] 
 then
+    pio run --environment esp32dev
     mkdir ./temp/
     LASTVERSION=${tag##*=}
     VERSION="$((LASTVERSION + 1))"
@@ -25,9 +26,11 @@ then
 
     echo "commit=$COMMIT:" >> version.txt
     echo "version=$VERSION" >> version.txt
-
+    
     cp -r ./data/* ./temp/
     cp ./.pio/build/esp32dev/firmware.bin ./temp/
+    cp version.txt ./temp/
+
     cd ./temp/
     
     tar -czf ../update_$VERSION.tgz * 

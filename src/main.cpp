@@ -66,8 +66,6 @@ void setup()
   ServerHandle.init();
   Buttoms.init();
 
-  Serial.println("Ota version 6");
-
   xTaskCreatePinnedToCore(
       HandleNowTask,   /* Task function. */
       "HandleNowTask", /* name of task. */
