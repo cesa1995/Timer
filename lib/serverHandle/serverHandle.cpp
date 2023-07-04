@@ -151,6 +151,16 @@ void serverHandle::handleJsonGetData(AsyncWebServerRequest *request)
     {
         root["name"] = WifiHandle->getName();
     }
+    if (request->getParam("config")->value() == "timeAndRelayState")
+    {
+        root["time"] = rtc->timeToString();
+        JsonArray relayState = root.createNestedArray("relayState");
+        bool *states = Relays->getRelaysState();
+        for (int i = 0; i < QUANTITYRELAYS; i++)
+        {
+            relayState[i] = states[i];
+        }
+    }
     response->setLength();
     request->send(response);
 }

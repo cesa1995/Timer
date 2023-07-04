@@ -43,6 +43,15 @@ public:
     void setOffRelayByIndex(int index);
     bool toggleRelayByIndex(int index);
     bool getRelayStateByIndex(int index);
+    bool *getRelaysState()
+    {
+        static bool states[QUANTITYRELAYS];
+        for (int i = 0; i < QUANTITYRELAYS; i++)
+        {
+            states[i] = data[i].getState();
+        }
+        return states;
+    }
     String getRelayStateByIndexString(int index);
 };
 
